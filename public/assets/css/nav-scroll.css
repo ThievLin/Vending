@@ -1,0 +1,30 @@
+body {
+    overflow-x: hidden;
+    padding-top: 56px;
+}
+
+#sidebar {
+    /* height: 100%; */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    overflow-y: auto;
+}
+
+#body {
+    margin-left: 250px;
+}
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 83%;
+    z-index: 1000;
+}
+.re-logo {
+    width: 30%;
+}
+
+.logo-active {
+    width: unset !important; /* or width: auto !important; depending on your specific styling needs */
+}
