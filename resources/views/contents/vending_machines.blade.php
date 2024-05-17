@@ -33,7 +33,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $data->m_name }}</td>
                                 <td>
-                                    <img src="{{ asset('storage/' . $data->m_image) }}" alt="{{ $data->m_name }}"
+                                    <img src="{{ asset( $data->m_image) }}" alt="{{ $data->m_name }}"
                                     style="max-width: 60px; max-height: 69px;">
                                 </td>
                                 <td>{{ $data->slot }}</td>

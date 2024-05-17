@@ -67,8 +67,12 @@ class MachinesController extends Controller
         if ($request->hasFile('m_image')) {
             $image = $request->file('m_image');
             $imageName = time() . '_' . $image->getClientOriginalName();
-            $image->storeAs('public/images', $imageName);
-            $validatedData['m_image'] = 'images/' . $imageName; // Store the path relative to the public directory
+            
+            // Store the image in the 'public/images' directory
+            $image->move(public_path('images'), $imageName);
+            
+            // Store the path relative to the public directory
+            $validatedData['m_image'] = 'images/' . $imageName;
         }
 
         Machines::create($validatedData);
@@ -145,7 +149,7 @@ class MachinesController extends Controller
         $machine->villages = $validatedData['villages'];
         $machine->save();
 
-        return redirect('vending_machines')->with('flash_message', 'Machine Updated Successfully');
+        return redirect('/vending_machines')->with('flash_message', 'Machine Updated Successfully');
     }
 
 

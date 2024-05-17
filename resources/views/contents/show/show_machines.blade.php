@@ -12,7 +12,7 @@
                             <div class="card-body">
                                 <div class="row col-md-12">
                                     <div class="mb-3 col-md-4 text-center">
-                                        <img src="{{ asset('storage/' . $data->m_image) }}" alt="{{ $data->m_name }}"
+                                        <img src="{{ asset( $data->m_image) }}" alt="{{ $data->m_name }}"
                                             style="max-width: 350px; max-height: 350px;">
                                     </div>
                                     <div class="mb-3 col-md-8">
