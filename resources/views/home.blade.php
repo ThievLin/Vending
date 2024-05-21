@@ -72,48 +72,59 @@
                                         <p class="detail-subtitle">Daily Income</p>
                                         <span class="number" id="totalmoney">
                                             @php
-                                                use App\Models\Machines;
-                                                $totalPriceSum = 0;
-                                                // Get the start date
-                                                $startDate = Machines::orderBy('created_at', 'desc')->value('created_at');
+                                            use App\Models\Machines;
+
+                                            $totalPriceSum = 0;
+
+                                            // Get the start date
+                                            $startDate = Machines::orderBy('created_at', 'desc')->value('created_at');
+
+                                            // Check if startDate is null
+                                            if ($startDate) {
                                                 // Format the start date to include only month, day, and year
                                                 $startDate = $startDate->format('Y-m-d');
+                                            }
 
-                                                // Get the end date
-                                                $endDate = date('Y-m-d');
+                                            // Get the end date
+                                            $endDate = date('Y-m-d');
 
-                                                foreach ($resultsApi as $value) {
-                                                    // Check if the date falls within the range
-                                                    if ($value->date >= $startDate && $value->date <= $endDate) {
-                                                        $totalPriceSum += $value->total_price;
-                                                    }
+                                            foreach ($resultsApi as $value) {
+                                                // Check if the date falls within the range
+                                                if ($value->date >= $startDate && $value->date <= $endDate) {
+                                                    $totalPriceSum += $value->total_price;
                                                 }
-                                                echo number_format($totalPriceSum, 2) . ' (៛)';
+                                            }
+                                            echo number_format($totalPriceSum, 2) . ' (៛)';
 
-                                                
-                                                // Get the start date based on the created_at date of the machine (only month and year)
-                                                $machineCreatedAt = date('Y-m', strtotime(Machines::orderBy('created_at', 'asc')->value('created_at')));
+                                            // Get the start date based on the created_at date of the machine (only month and year)
+                                            $machineCreatedAt = Machines::orderBy('created_at', 'asc')->value('created_at');
 
-                                                // Get the end date (today)
-                                                $endDate = date('Y-m');
+                                            // Check if machineCreatedAt is null
+                                            if ($machineCreatedAt) {
+                                                $machineCreatedAt = date('Y-m', strtotime($machineCreatedAt));
+                                            }
 
-                                                // Initialize an array to store total income for each month
-                                                $totalIncomeByMonth = [];
+                                            // Get the end date (today)
+                                            $endDate = date('Y-m');
 
-                                                // Iterate over each transaction
-                                                foreach ($resultsApi as $value) {
-                                                    // Get the year and month of the transaction
-                                                    $transactionYearMonth = date('Y-m', strtotime($value->date));
+                                            // Initialize an array to store total income for each month
+                                            $totalIncomeByMonth = [];
 
-                                                    // If the transaction year and month exist in the array, add the transaction income to the total income for that month
-                                                    if (array_key_exists($transactionYearMonth, $totalIncomeByMonth)) {
-                                                        $totalIncomeByMonth[$transactionYearMonth] += $value->total_price;
-                                                    } else {
-                                                        // If the transaction year and month do not exist in the array, initialize the total income for that month
-                                                        $totalIncomeByMonth[$transactionYearMonth] = $value->total_price;
-                                                    }
+                                            // Iterate over each transaction
+                                            foreach ($resultsApi as $value) {
+                                                // Get the year and month of the transaction
+                                                $transactionYearMonth = date('Y-m', strtotime($value->date));
+
+                                                // If the transaction year and month exist in the array, add the transaction income to the total income for that month
+                                                if (array_key_exists($transactionYearMonth, $totalIncomeByMonth)) {
+                                                    $totalIncomeByMonth[$transactionYearMonth] += $value->total_price;
+                                                } else {
+                                                    // If the transaction year and month do not exist in the array, initialize the total income for that month
+                                                    $totalIncomeByMonth[$transactionYearMonth] = $value->total_price;
                                                 }
-                                            @endphp
+                                            }
+                                        @endphp
+
                                         </span>
                                     </div>
                                 </div>

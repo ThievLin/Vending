@@ -67,10 +67,16 @@ class HomeRepository
     public function getTransection(Reslot $query)
     {
         $todayDate = Machines::orderBy('created_at', 'desc')->value('created_at');
-        return $query->whereNotNull('slot')
-            ->whereNotNull('location')
-            ->where('date', '>', $todayDate)
+
+        if ($todayDate) {
+    return $query->whereNotNull('slot')
+        ->whereNotNull('location')
+        ->where('date', '>', $todayDate)
             ->count();
+    } else 
+    {
+        return 0;
+    }
     }
 
     public function getResultApi()

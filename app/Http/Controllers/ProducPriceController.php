@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Http\Controllers\Controller;
 use App\Models\ProducPrice;
 use App\Repositories\Dashboard\HomeRepository;
@@ -72,20 +71,27 @@ class ProducPriceController extends Controller
         }
         // SSH connection to update JSON file
         try {
-            $ssh = new SSH2('192.168.200.5');
+            // Use the correct host and port
+            $ssh = new SSH2('110.74.217.86', 3035);
+            
+            // Attempt to login with the provided credentials
             if (!$ssh->login('pi', 'raspberry')) {
                 throw new Exception('Login Failed');
             }
-
-            // Read JSON file content
+        
+            // Execute the command to read the JSON file
             $jsonOutput = $ssh->exec('cat ~/testcode/product.json');
             $jsonOutput = trim($jsonOutput);
             $jsonData = json_decode($jsonOutput, true);
+            
+            // Check if JSON decoding was successful
             if ($jsonData === null) {
                 throw new Exception('Error decoding JSON data');
             }
+            
+            // Proceed with your logic using $jsonData
         } catch (Exception $e) {
-            // Display error message and handle the situation
+            // Handle the error and display the message
             return "Error: {$e->getMessage()}. Please make sure you are connected to the internet.";
         }
 
